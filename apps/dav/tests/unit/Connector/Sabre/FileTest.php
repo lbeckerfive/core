@@ -389,7 +389,23 @@ class FileTest extends TestCase {
 				"string that looks like invalid hex int" => [
 						'HTTP_X_OC_MTIME' => "0x123g",
 						'expected result' => 0
-				]
+				],
+				"long int" => [
+						'HTTP_X_OC_MTIME' => PHP_INT_MAX,
+						'expected result' => PHP_INT_MAX
+				],
+				"too long int" => [
+						'HTTP_X_OC_MTIME' => PHP_INT_MAX+1,
+						'expected result' => PHP_INT_MAX
+				],
+				"long negative int" => [
+						'HTTP_X_OC_MTIME' => PHP_INT_MIN,
+						'expected result' => PHP_INT_MIN
+				],
+				"too long negative int" => [
+						'HTTP_X_OC_MTIME' => PHP_INT_MIN-1,
+						'expected result' => PHP_INT_MIN
+				],
 		];
 	}
 
