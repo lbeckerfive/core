@@ -399,12 +399,12 @@ class FileTest extends TestCase {
 						'expected result' => PHP_INT_MAX
 				],
 				"long negative int" => [
-						'HTTP_X_OC_MTIME' => PHP_INT_MIN,
-						'expected result' => PHP_INT_MIN
+						'HTTP_X_OC_MTIME' => PHP_INT_MAX*-1,
+						'expected result' => PHP_INT_MAX*-1
 				],
 				"too long negative int" => [
-						'HTTP_X_OC_MTIME' => PHP_INT_MIN-1,
-						'expected result' => PHP_INT_MIN
+						'HTTP_X_OC_MTIME' => (PHP_INT_MAX*-1)-1,
+						'expected result' => PHP_INT_MAX*-1
 				],
 		];
 	}
