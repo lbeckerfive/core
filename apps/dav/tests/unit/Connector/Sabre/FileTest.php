@@ -341,7 +341,8 @@ class FileTest extends TestCase {
 	}
 
 	public function legalMtimeProvider() {
-		return [ 
+		$primaryStorageConfig = getenv("PRIMARY_STORAGE_CONFIG");
+		$testValues = [
 				"string" => [ 
 						'HTTP_X_OC_MTIME' => "string",
 						'expected result' => 0
@@ -374,14 +375,6 @@ class FileTest extends TestCase {
 						'HTTP_X_OC_MTIME' => "2345asdf",
 						'expected result' => 2345
 				],
-				"negative int" => [
-						'HTTP_X_OC_MTIME' => -34,
-						'expected result' => -34
-				],
-				"negative float" => [
-						'HTTP_X_OC_MTIME' => -34.43,
-						'expected result' => -34
-				],
 				"string castable hex int" => [
 						'HTTP_X_OC_MTIME' => "0x45adf",
 						'expected result' => 0
@@ -398,15 +391,47 @@ class FileTest extends TestCase {
 						'HTTP_X_OC_MTIME' => PHP_INT_MAX+1,
 						'expected result' => PHP_INT_MAX
 				],
+		];		
+		if ($primaryStorageConfig === "swift") {
+			$testValuesNegativeMtime = [
+				"negative int" => [
+						'HTTP_X_OC_MTIME' => -34,
+						'expected result' => 0
+				],
+				"negative float" => [
+						'HTTP_X_OC_MTIME' => -34.43,
+						'expected result' => 0
+				],
 				"long negative int" => [
 						'HTTP_X_OC_MTIME' => PHP_INT_MAX*-1,
-						'expected result' => PHP_INT_MAX*-1
+						'expected result' => 0
 				],
 				"too long negative int" => [
 						'HTTP_X_OC_MTIME' => (PHP_INT_MAX*-1)-1,
-						'expected result' => PHP_INT_MAX*-1
+						'expected result' => 0
 				],
-		];
+			];
+		} else {
+			$testValuesNegativeMtime = [
+					"negative int" => [
+							'HTTP_X_OC_MTIME' => -34,
+							'expected result' => -34
+					],
+					"negative float" => [
+							'HTTP_X_OC_MTIME' => -34.43,
+							'expected result' => -34
+					],
+					"long negative int" => [
+							'HTTP_X_OC_MTIME' => PHP_INT_MAX*-1,
+							'expected result' => PHP_INT_MAX*-1
+					],
+					"too long negative int" => [
+							'HTTP_X_OC_MTIME' => (PHP_INT_MAX*-1)-1,
+							'expected result' => PHP_INT_MAX*-1
+					],
+			];
+		}
+		return array_merge($testValues, $testValuesNegativeMtime);
 	}
 
 	/**
