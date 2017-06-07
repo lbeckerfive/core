@@ -354,7 +354,7 @@
 				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>8</length>
+				<length>4</length>
 			</field>
 
 			<field>
@@ -362,7 +362,7 @@
 				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>8</length>
+				<length>4</length>
 			</field>
 
 			<field>
